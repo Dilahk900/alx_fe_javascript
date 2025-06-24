@@ -24,12 +24,6 @@ document.getElementById('newQuote').addEventListener(('click') , ()=>{
 
 function showRandomQuote (){
   let quoteForm = document.querySelector('.quoteForm');
-  /*let html = '';
-  quotes.forEach((value)=>{
-    html += `<div>${value.quote_text}</div><div>${value.quote_category}</div>`;
-  });
-  quoteForm.innerHTML = html;*/
-
   let randomQuoteIndex = Math.floor((Math.random()*quotes.length));
 
   quoteForm.innerHTML = `<div>${quotes[randomQuoteIndex].quote_text}</div>
