@@ -1,4 +1,4 @@
-let quotes = [];
+let quotes = JSON.parse(localStorage.getItem('quotes')) || [];
 
 const quote_text = document.getElementById('newQuoteText');
 const quote_category = document.getElementById('newQuoteCategory');
@@ -9,8 +9,8 @@ function createAddQuoteForm(){
   const category = quote_category.value;
   quotes.push({quote_text: text , quote_category: category});
 
-  /*let storedquotes = JSON.stringify(quotes);
-  localStorage.setItem('quotes',storedquotes);*/
+  let storedquotes = JSON.stringify(quotes);
+  localStorage.setItem('quotes',storedquotes);
 }  
 
 document.getElementById('newQuote').addEventListener(('click') , ()=>{
