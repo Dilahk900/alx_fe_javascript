@@ -25,7 +25,7 @@ document.getElementById('newQuote').addEventListener(('click') , ()=>{
 function downloadQuoteData(){
   let storedquotes = JSON.stringify(quotes);
 
-  let blob = new Blob([storedquotes], {type : 'application/JSON'});
+  let blob = new Blob([storedquotes], {type : "application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.download = 'quotes.json';
