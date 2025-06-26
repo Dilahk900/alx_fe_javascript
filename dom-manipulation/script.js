@@ -9,8 +9,9 @@ function createAddQuoteForm(){
   const category = quote_category.value;
   quotes.push({quote_text: text , quote_category: category});
 
-  showRandomQuote ();
-}
+  /*let storedquotes = JSON.stringify(quotes);
+  localStorage.setItem('quotes',storedquotes);*/
+}  
 
 document.getElementById('newQuote').addEventListener(('click') , ()=>{
   let quoteForm = document.getElementById('quoteDisplay');
@@ -20,6 +21,31 @@ document.getElementById('newQuote').addEventListener(('click') , ()=>{
   });
   quoteForm.innerHTML = html;
 });
+
+function downloadQuoteData(){
+  let storedquotes = JSON.stringify(quotes);
+
+  let blob = new Blob([storedquotes], {type : 'application/JSON'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.download = 'quotes.json';
+  a.href = url;
+  a.click();
+
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+  function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      saveQuotes();
+      alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
+  }
 
 
 function showRandomQuote (){
