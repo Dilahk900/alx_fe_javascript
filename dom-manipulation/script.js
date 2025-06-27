@@ -3,6 +3,10 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [];
 const quote_text = document.getElementById('newQuoteText');
 const quote_category = document.getElementById('newQuoteCategory');
 
+populateCategories(); //--> categ charged
+
+
+
 function createAddQuoteForm(){
   
   const text = quote_text.value;
@@ -11,13 +15,17 @@ function createAddQuoteForm(){
 
   let storedquotes = JSON.stringify(quotes);
   localStorage.setItem('quotes',storedquotes);
+
+  addQuote();
+  quote_text.value = '';
+  quote_category.value = '';
 }  
 
 document.getElementById('newQuote').addEventListener(('click') , ()=>{
   let quoteForm = document.getElementById('quoteDisplay');
   let html = '';
   quotes.forEach((value)=>{
-    html += `<div>${value.quote_text}</div><div>${value.quote_category}</div>`;
+    html += `<div>${value.quote_text} => ${value.quote_category}</div>`;
   });
   quoteForm.innerHTML = html;
 });
@@ -72,3 +80,83 @@ function showRandomQuote (){
 
 }
 
+
+
+function populateCategories(){
+
+  const disquote = document.getElementById('categoryFilter');
+  disquote.innerHTML = '';
+  let catList = new Set();
+  
+  quotes.forEach((quote) =>{
+    catList.add(quote.quote_category);
+  });
+
+  catList.forEach((category)=>{
+    const option = document.createElement('option');
+    option.value = category;
+    option.textContent = category; 
+    disquote.appendChild(option);
+  });
+  const selectedcat = document.getElementById('categoryFilter');
+  const display = document.getElementById('quoteDisplay');
+  const chargedquote = localStorage.getItem('filteredQuotesJSON') || '[]';
+  const chargeCat = localStorage.getItem('CatID') || '[]';
+  const filteredQuotes = JSON.parse(chargedquote);
+  console.log(filteredQuotes);
+  let html = chargeCat;
+  filteredQuotes.forEach((quote) => {
+    html += `<div>=> ${quote.text}</div>`; 
+  });
+  //console.log(html);
+  display.innerHTML = html;
+}
+
+function filterQuotes(){
+      let quoteForm = document.getElementById('quoteDisplay');
+      const selectedcat = document.getElementById('categoryFilter');
+      let html = `<div>${selectedcat.value}</div>`;
+
+      let filteredQuotes = [];
+      localStorage.removeItem('filteredQuotesJSON');
+      localStorage.removeItem('CatID');
+
+      quotes.forEach((value)=>{
+        if(value.quote_category === selectedcat.value){
+
+          filteredQuotes.push({text : value.quote_text, category : value.quote_category});
+          html += `<div>=> ${value.quote_text}</div>`;          
+        }
+
+      });
+       // console.log('quotes' + filteredQuotes);
+      const strg_filteredQuotes = JSON.stringify(filteredQuotes);
+      localStorage.setItem('filteredQuotesJSON', strg_filteredQuotes);
+      localStorage.setItem('CatID', selectedcat.value);
+      
+      quoteForm.innerHTML = html;
+
+}
+
+function addQuote(){
+  
+  catList = new Set();
+
+  quotes.forEach((val) =>{
+    catList.add(val.quote_category);
+  });
+  
+  const dropBox = document.getElementById('categoryFilter');
+
+  dropBox.innerHTML = '';
+
+
+
+  catList.forEach((val)=>{
+    const option = document.createElement('option');
+    option.value = val;
+    option.textContent = val;
+    dropBox.appendChild(option);
+  });
+  
+}
