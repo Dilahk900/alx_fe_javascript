@@ -98,7 +98,7 @@ function populateCategories(){
     option.textContent = category; 
     disquote.appendChild(option);
   });
-  const selectedcat = document.getElementById('categoryFilter');
+  const selectedCategory = document.getElementById('categoryFilter');
   const display = document.getElementById('quoteDisplay');
   const chargedquote = localStorage.getItem('filteredQuotesJSON') || '[]';
   const chargeCat = localStorage.getItem('CatID') || '[]';
@@ -114,15 +114,15 @@ function populateCategories(){
 
 function filterQuotes(){
       let quoteForm = document.getElementById('quoteDisplay');
-      const selectedcat = document.getElementById('categoryFilter');
-      let html = `<div>${selectedcat.value}</div>`;
+      const selectedCategory = document.getElementById('categoryFilter');
+      let html = `<div>${selectedCategory.value}</div>`;
 
       let filteredQuotes = [];
       localStorage.removeItem('filteredQuotesJSON');
       localStorage.removeItem('CatID');
 
      /* quotes.forEach((value)=>{
-        if(value.quote_category === selectedcat.value){
+        if(value.quote_category === selectedCategory.value){
 
           filteredQuotes.push({text : value.quote_text, category : value.quote_category});
           html += `<div>=> ${value.quote_text}</div>`;          
@@ -130,14 +130,14 @@ function filterQuotes(){
 
       });*/
        // console.log('quotes' + filteredQuotes);
-      let toUseMap = quotes.filter((q) => q.quote_category === selectedcat.value)
+      let toUseMap = quotes.filter((q) => q.quote_category === selectedCategory.value)
      .map((q) => {
     html += `<div>=> ${q.quote_text}</div>`;
     return { text: q.quote_text, category: q.quote_category };
-  });
+    });
       const strg_filteredQuotes = JSON.stringify(toUseMap);
       localStorage.setItem('filteredQuotesJSON', strg_filteredQuotes);
-      localStorage.setItem('CatID', selectedcat.value);
+      localStorage.setItem('CatID', selectedCategory.value);
       
       quoteForm.innerHTML = html;
 
