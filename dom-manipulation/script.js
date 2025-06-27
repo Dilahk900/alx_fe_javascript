@@ -121,16 +121,21 @@ function filterQuotes(){
       localStorage.removeItem('filteredQuotesJSON');
       localStorage.removeItem('CatID');
 
-      quotes.forEach((value)=>{
+     /* quotes.forEach((value)=>{
         if(value.quote_category === selectedcat.value){
 
           filteredQuotes.push({text : value.quote_text, category : value.quote_category});
           html += `<div>=> ${value.quote_text}</div>`;          
         }
 
-      });
+      });*/
        // console.log('quotes' + filteredQuotes);
-      const strg_filteredQuotes = JSON.stringify(filteredQuotes);
+      let toUseMap = quotes.filter((q) => q.quote_category === selectedcat.value)
+     .map((q) => {
+    html += `<div>=> ${q.quote_text}</div>`;
+    return { text: q.quote_text, category: q.quote_category };
+  });
+      const strg_filteredQuotes = JSON.stringify(toUseMap);
       localStorage.setItem('filteredQuotesJSON', strg_filteredQuotes);
       localStorage.setItem('CatID', selectedcat.value);
       
