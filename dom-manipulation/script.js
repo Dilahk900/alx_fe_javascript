@@ -168,7 +168,7 @@ function addQuote(){
 
 setInterval(() => {
   fetch('https://jsonplaceholder.typicode.com/posts')
-  .then(data => data.json())
+  .then(fetchQuotesFromServer => fetchQuotesFromServer.json())
   .then(posts => {
     //serverQuote = [];
     //console.log(posts);
