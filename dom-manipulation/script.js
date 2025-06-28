@@ -2,6 +2,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [];
 
 const quote_text = document.getElementById('newQuoteText');
 const quote_category = document.getElementById('newQuoteCategory');
+let serverQuote = localStorage.getItem('serverQuote') || [];
 
 populateCategories(); //--> categ charged
 
@@ -118,8 +119,7 @@ function filterQuotes(){
       let html = `<div>${selectedCategory.value}</div>`;
 
       let filteredQuotes = [];
-      localStorage.removeItem('filteredQuotesJSON');
-      localStorage.removeItem('CatID');
+
 
      /* quotes.forEach((value)=>{
         if(value.quote_category === selectedCategory.value){
@@ -165,3 +165,28 @@ function addQuote(){
   });
   
 }
+
+setInterval(() => {
+  fetch('https://jsonplaceholder.typicode.com/posts')
+  .then(data => data.json())
+  .then(posts => {
+    //serverQuote = [];
+    //console.log(posts);
+    if(serverQuote.length !== posts.length){
+      const userChoice = confirm('New data available, do you want to update ?');
+      if(userChoice){
+        serverQuote = [];
+        posts.forEach((quote)=>{
+            serverQuote.push({cat : quote.title , text : quote.body})
+        });
+        console.log(serverQuote);
+        localStorage.setItem('serverQuote', JSON.stringify(serverQuote));
+        alert("Quotes updated from server!");
+      }
+     }
+
+    
+  }).catch(error => {
+    console.error('Server error',error);
+  }) ;
+}, 3000);
