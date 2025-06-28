@@ -219,7 +219,7 @@ async function fetchServerQuotes() {
 
 async function sendQuoteToServer(quote) {
   try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    const syncQuotes = await fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -227,7 +227,7 @@ async function sendQuoteToServer(quote) {
       body: JSON.stringify(quote)
     });
 
-    const result = await response.json();
+    const result = await syncQuotes.json();
     console.log('Quote sent to server:', result);
   } catch (error) {
     console.error('Error sending quote:', error);
