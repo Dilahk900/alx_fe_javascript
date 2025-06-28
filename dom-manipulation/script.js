@@ -228,7 +228,7 @@ async function sendQuoteToServer(quote) {
     });
 
     const result = await syncQuotes.json();
-    console.log('Quote sent to server:', result);
+    console.log('Quotes synced with server!', result);
   } catch (error) {
     console.error('Error sending quote:', error);
   }
