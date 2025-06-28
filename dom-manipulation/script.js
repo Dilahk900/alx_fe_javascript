@@ -166,7 +166,7 @@ function addQuote(){
   
 }
 
-setInterval(() => {
+/*setInterval(() => {
   fetch('https://jsonplaceholder.typicode.com/posts')
   .then(fetchQuotesFromServer => fetchQuotesFromServer.json())
   .then(posts => {
@@ -189,4 +189,28 @@ setInterval(() => {
   }).catch(error => {
     console.error('Server error',error);
   }) ;
-}, 3000);
+}, 3000);*/
+setInterval(fetchServerQuotes, 3000);
+
+async function fetchServerQuotes() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const posts = await response.json();
+
+    if (serverQuote.length !== posts.length) {
+      const userChoice = confirm('New data available, do you want to update ?');
+      if (userChoice) {
+        serverQuote = posts.map(quote => ({
+          cat: quote.title,
+          text: quote.body
+        }));
+
+        console.log(serverQuote);
+        localStorage.setItem('serverQuote', JSON.stringify(serverQuote));
+        alert("Quotes updated from server!");
+      }
+    }
+  } catch (error) {
+    console.error('Server error', error);
+  }
+}
