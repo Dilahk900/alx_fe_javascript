@@ -17,6 +17,8 @@ function createAddQuoteForm(){
   let storedquotes = JSON.stringify(quotes);
   localStorage.setItem('quotes',storedquotes);
 
+  sendQuoteToServer({ text: newQuote.quote_text, cat: newQuote.quote_category });
+
   addQuote();
   quote_text.value = '';
   quote_category.value = '';
@@ -212,5 +214,22 @@ async function fetchServerQuotes() {
     }
   } catch (error) {
     console.error('Server error', error);
+  }
+}
+
+async function sendQuoteToServer(quote) {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(quote)
+    });
+
+    const result = await response.json();
+    console.log('Quote sent to server:', result);
+  } catch (error) {
+    console.error('Error sending quote:', error);
   }
 }
